@@ -1,0 +1,4 @@
+Rejestracja düwieku w C#:
+https://msdn.microsoft.com/en-us/library/ff827802.aspx
+
+
