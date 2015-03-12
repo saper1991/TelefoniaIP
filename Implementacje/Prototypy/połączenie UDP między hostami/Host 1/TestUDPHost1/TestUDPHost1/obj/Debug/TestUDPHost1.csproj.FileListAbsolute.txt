@@ -1,0 +1,5 @@
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 1\TestUDPHost1\TestUDPHost1\bin\Debug\TestUDPHost1.exe.config
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 1\TestUDPHost1\TestUDPHost1\bin\Debug\TestUDPHost1.exe
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 1\TestUDPHost1\TestUDPHost1\bin\Debug\TestUDPHost1.pdb
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 1\TestUDPHost1\TestUDPHost1\obj\Debug\TestUDPHost1.exe
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 1\TestUDPHost1\TestUDPHost1\obj\Debug\TestUDPHost1.pdb

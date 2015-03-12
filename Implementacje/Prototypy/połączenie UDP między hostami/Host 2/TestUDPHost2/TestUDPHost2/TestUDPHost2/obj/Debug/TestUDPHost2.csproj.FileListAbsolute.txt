@@ -1,0 +1,6 @@
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 2\TestUDPHost2\TestUDPHost2\TestUDPHost2\bin\Debug\TestUDPHost2.exe.config
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 2\TestUDPHost2\TestUDPHost2\TestUDPHost2\bin\Debug\TestUDPHost2.exe
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 2\TestUDPHost2\TestUDPHost2\TestUDPHost2\bin\Debug\TestUDPHost2.pdb
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 2\TestUDPHost2\TestUDPHost2\TestUDPHost2\obj\Debug\TestUDPHost2.csprojResolveAssemblyReference.cache
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 2\TestUDPHost2\TestUDPHost2\TestUDPHost2\obj\Debug\TestUDPHost2.exe
+D:\Projekty\TelefoniaIP\TelefoniaIP\Implementacje\Prototypy\połączenie UDP między hostami\Host 2\TestUDPHost2\TestUDPHost2\TestUDPHost2\obj\Debug\TestUDPHost2.pdb
