@@ -20,6 +20,7 @@ namespace WavePlaying
         {
             InitializeComponent();
 
+            //ustawienia statycznego rozmmiaru ekranu
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
         }
@@ -33,6 +34,7 @@ namespace WavePlaying
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Plik .wav (*.wav) | *.wav";
+
             DisposeProgram();
 
             if(ofd.ShowDialog() == DialogResult.OK)
