@@ -1,0 +1,78 @@
+package Program;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import Commu.SocketConverter;
+
+public class Server 
+{
+	private ServerSocket server = null;
+	private Socket socket = null;
+	
+	private int port = 0;
+	
+	private InputStream is = null;
+	private OutputStream os = null;
+	
+	public Server()
+	{
+		port = 11324;
+	}
+	
+	public void start()
+	{
+		try 
+		{
+			server = new ServerSocket(port);
+			
+			while(true)
+			{
+				socket = server.accept();
+				is = socket.getInputStream();
+				os = socket.getOutputStream();
+				
+				String Rectext, SenText;
+				while(true)
+				{
+					Rectext = SocketConverter.ReceiveText(is);
+					if(Rectext.equals("exit"))
+					{
+						break;
+					}
+					else
+					{
+						System.out.println(Rectext);
+						SenText = Rectext.toUpperCase();
+						SocketConverter.SendText(os, SenText);
+					}
+					
+				}
+				
+				is.close();
+				os.close();
+				socket.close();
+				System.out.println("Po³¹czenie zakoñczone z klientem!");
+			}
+			
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try 
+			{
+				server.close();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+}
