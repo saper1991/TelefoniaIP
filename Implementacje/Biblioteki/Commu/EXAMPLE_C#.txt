@@ -1,0 +1,79 @@
+using System;
+using System.Net.Sockets;
+using System.Net;
+using Commu;
+
+namespace CommuTest
+{
+    class Client
+    {
+        Socket socket = null;
+        int port = 0;
+        string address = null;
+
+
+        public Client()
+        {
+            address = "127.0.0.1";
+            port = 11323;
+        }
+
+        public void Start()
+        {
+            socket = ConnectSocket(address, port);
+            if(socket != null)
+            {
+                Console.WriteLine("Po³¹czenie zosta³o zastawione! ");
+
+                string Sentext, Rectext; 				
+                Console.WriteLine("Wprowadz wiadomosc do serwera:");
+                while(true)
+                {
+                    Sentext = Console.ReadLine();
+                    SocketConverter.SendText(socket, Sentext);		//wysy³anie 
+                    if(Sentext == "exit")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Rectext = SocketConverter.ReceiveText(socket);	//odbieranie
+                        Console.WriteLine(Rectext);
+                    }
+                }
+                socket.Close();
+            }
+            else
+            {
+                Console.WriteLine("Nie mo¿na siê po³¹czyæ z serwerem!");
+            }
+        }
+
+        private Socket ConnectSocket(string serwer, int port)
+        {
+            Socket s = null;
+            IPHostEntry hostEntry = null;
+
+            hostEntry = Dns.GetHostEntry(serwer);
+
+            foreach (IPAddress address in hostEntry.AddressList)
+            {
+                IPEndPoint ipe = new IPEndPoint(address, port);
+                Socket tempSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+                tempSocket.Connect(ipe);
+
+                if (tempSocket.Connected)
+                {
+                    s = tempSocket;
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return s;
+        }
+    }
+}
