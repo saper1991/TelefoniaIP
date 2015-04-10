@@ -1,0 +1,6 @@
+11324
+3
+62.21.26.80
+3306
+TIPserverUser
+XMfR7mYUSUF8aBs8

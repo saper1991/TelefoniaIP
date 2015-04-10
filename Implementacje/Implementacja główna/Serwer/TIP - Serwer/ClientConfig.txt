@@ -1,0 +1,2 @@
+user: TIPclientUser
+pass: hSYmHM5BSuEBS8LV
