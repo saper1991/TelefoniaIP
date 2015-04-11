@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class Server extends ThreadCommunicator
+public class Server extends ThreadCommunicator implements Runnable
 {
 	private ServerSocket server = null;
 	private Database db = null;
@@ -18,7 +18,7 @@ public class Server extends ThreadCommunicator
 	{
 		this.server = ss;
 		this.db = db;
-		start();
+		this.start();
 	}
 	
 	public void run()
@@ -64,16 +64,35 @@ public class Server extends ThreadCommunicator
 			}
 		}
 	}
+	
 	public void serviceRequest(InputStream istream, OutputStream ostream, Database db) throws IOException
 	{
 		String recText;
+		String[] requests = null;
 		while(true)
 		{
 			recText = SocketConverter.receiveText(istream);
+			requests = recText.split(" ");
 			
-			if(recText.equals("SHOWALL"))
+			if(requests[0].equals("ADD"))
 			{
-				SocketConverter.SendText(ostream, db.ReadDatabase());
+				if(db.checkUser(Integer.parseInt(requests[2])))
+				{
+					boolean inserted = db.addUser(requests[1], Integer.parseInt(requests[2]));
+					if(inserted)
+					{
+						SocketConverter.SendText(ostream, "OK" + requests[1] + " " + requests[2]);
+					}
+					else
+					{
+						SocketConverter.SendText(ostream, "NOK " + requests[1] + " " + requests[2]);
+					}
+					
+				}
+				else
+				{
+					SocketConverter.SendText(ostream, "NOK " + requests[1] + " " + requests[2]);
+				}
 			}
 		}
 	}

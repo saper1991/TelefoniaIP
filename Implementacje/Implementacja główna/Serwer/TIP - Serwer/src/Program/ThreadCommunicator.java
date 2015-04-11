@@ -5,5 +5,6 @@ import java.util.List;
 
 public class ThreadCommunicator extends Thread
 {
-	private static List<Integer> plugged = new LinkedList<Integer>();
+	protected static List<Integer> plugged = new LinkedList<Integer>();
+	protected static List<Integer> dialed = new LinkedList<Integer>();
 }

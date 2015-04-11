@@ -23,9 +23,11 @@ public class Database
 		
 		try 
 		{
+			String UserName = null;
+			
 			while(rs.next())
 			{
-				String UserName = rs.getString("UserName");
+				UserName = rs.getString("UserName");
 				int UserNumber = rs.getInt("UserNumber");
 				
 				result += (UserName + " " + UserNumber + "\n");
@@ -38,6 +40,28 @@ public class Database
 			return result;
 		}
 	}
+	
+	private String writeUserNumber(ResultSet rs)
+	{
+		String result = "";
+		
+		try 
+		{
+			while(rs.next())
+			{
+				int UserNumber = rs.getInt("UserNumber");
+				
+				result += (UserNumber);
+			}
+			return result;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println("Nast¹pi³ problem z pobraniem wartoœci z Bazy danych!");
+			return result;
+		}
+	}
+	
 	private String CreateDBCommand(String address, int MySQLPort)
 	{
 		return "jdbc:mysql://"+ address +":" + MySQLPort + "/TIP";
@@ -68,14 +92,14 @@ public class Database
 			System.exit(1);
 		}
 	}
-	public String ReadDatabase()
+	public String readDatabase(String query)
 	{
 		String results = "";
 		
 		try 
 		{
 			statement = conn.createStatement();
-			rs = statement.executeQuery("select * from USERS");
+			rs = statement.executeQuery(query);
 			results = writeResultSet(rs);
 		} 
 		catch (SQLException e) 
@@ -83,6 +107,103 @@ public class Database
 			System.out.println("B³¹d podczas realizacji zapytania SQL");
 			return results;
 		}
+		finally
+		{
+			try 
+			{
+				rs.close();
+				statement.close();
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			
+		}
 		return results;
 	}
+	public boolean addUser(String userName, int userNumber)
+	{
+		boolean result = false;
+		try 
+		{
+			String query = "insert into USERS values('" + userName + "', " + userNumber +")"; 
+			
+			statement = conn.createStatement();
+			int count = statement.executeUpdate(query);
+			if(count != 0)
+			{
+				result =  true;
+			}
+			else
+			{
+				result =  false;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println("Nast¹pi³ problem z dodaniem nowego u¿ytkownika: " + userName + " " + userNumber);
+			e.printStackTrace();
+		}
+		finally
+		{
+			try 
+			{
+				statement.close();
+			}
+			catch (SQLException e) 
+			{
+				System.out.println("Nast¹pi³ problem z przetwarzaniem danych wprowadzaj¹cych do Bazy danych!");
+			}
+		}	
+		
+		return result;
+	}
+	private String readUserNumber(int userNumber)
+	{
+		String results = "";
+		
+		try 
+		{
+			statement = conn.createStatement();
+			rs = statement.executeQuery("select UserNumber from USERS where UserNumber = " + userNumber);
+			results = writeUserNumber(rs);
+			
+			rs.close();
+			statement.close();
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println("B³¹d podczas realizacji zapytania SQL");
+			return results;
+		}
+		finally
+		{
+			try 
+			{
+				rs.close();
+				statement.close();
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		return results;
+	}
+	
+	public boolean checkUser(int userNumber)
+	{
+		String recData = readUserNumber(userNumber);
+		if(recData.isEmpty())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 }
