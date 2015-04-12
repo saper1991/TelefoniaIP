@@ -12,7 +12,7 @@ public class Database
 	private Statement statement = null;
 	private ResultSet rs = null;
 	private String DBServer = null;
-	private int DBPort;
+	private int DBPort = 0;
 	private String DBUser = null;
 	private String DBPass = null;
 	private String DBCommand = null;
@@ -39,8 +39,7 @@ public class Database
 			System.out.println("Nast¹pi³ problem z pobraniem wartoœci z Bazy danych!");
 			return result;
 		}
-	}
-	
+	}	
 	private String writeUserNumber(ResultSet rs)
 	{
 		String result = "";
@@ -60,8 +59,7 @@ public class Database
 			System.out.println("Nast¹pi³ problem z pobraniem wartoœci z Bazy danych!");
 			return result;
 		}
-	}
-	
+	}	
 	private String CreateDBCommand(String address, int MySQLPort)
 	{
 		return "jdbc:mysql://"+ address +":" + MySQLPort + "/TIP";
@@ -143,7 +141,6 @@ public class Database
 		catch (SQLException e) 
 		{
 			System.out.println("Nast¹pi³ problem z dodaniem nowego u¿ytkownika: " + userName + " " + userNumber);
-			e.printStackTrace();
 		}
 		finally
 		{
@@ -192,18 +189,17 @@ public class Database
 		}
 		return results;
 	}
-	
 	public boolean checkUser(int userNumber)
 	{
 		String recData = readUserNumber(userNumber);
 		if(recData.isEmpty())
 		{
-			return true;
+			return false;
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 	}
-	
+
 }

@@ -76,7 +76,7 @@ public class Server extends ThreadCommunicator implements Runnable
 			
 			if(requests[0].equals("ADD"))
 			{
-				if(db.checkUser(Integer.parseInt(requests[2])))
+				if(!db.checkUser(Integer.parseInt(requests[2])))
 				{
 					boolean inserted = db.addUser(requests[1], Integer.parseInt(requests[2]));
 					if(inserted)
@@ -92,6 +92,76 @@ public class Server extends ThreadCommunicator implements Runnable
 				else
 				{
 					SocketConverter.SendText(ostream, "NOK " + requests[1] + " " + requests[2]);
+				}
+			}
+			else if(requests[0].equals("HELLO"))
+			{
+				if(db.checkUser(Integer.parseInt(requests[1])))
+				{
+					String IPAddress = server.getInetAddress().toString();
+					
+					synchronized(this)
+					{
+						plugged.add(new PluggedUser(requests[1], Integer.parseInt(requests[2]), IPAddress));
+					}
+					SocketConverter.SendText(ostream, "OK " + requests[1]);
+				}
+				else
+				{
+					SocketConverter.SendText(ostream, "NOT " + requests[1]);
+				}
+			}
+			else if(requests[0].equals("EXIT"))
+			{
+				PluggedUser selectedUser = getUser(Integer.parseInt(requests[1]));
+				
+				synchronized(this)
+				{
+					plugged.remove(selectedUser);
+				}
+				SocketConverter.SendText(ostream, "OK " + requests[1]);
+			}
+			else if(requests[0].equals("INVITE"))
+			{
+				if(!db.checkUser(Integer.parseInt(requests[2])))
+				{
+					SocketConverter.SendText(ostream, "NEX " + requests[1] + " " + requests[2] + " " + requests[3]);
+				}
+				else if(isBusy(Integer.parseInt(requests[2])))
+				{
+					SocketConverter.SendText(ostream, "BUSY " + requests[1] + " " + requests[2] + " " + requests[3]);
+				}
+				else if(isPlugged(Integer.parseInt(requests[2])))
+				{
+					SocketConverter.SendText(ostream, "NAC " + requests[1] + " " + requests[2] + " " + requests[3]);
+				}
+				else
+				{
+					String IP = getIPAddress(Integer.parseInt(requests[2]));
+					Socket toClient = new Socket(IP, server.getLocalPort() + 1);
+					OutputStream out = toClient.getOutputStream();
+					InputStream in = toClient.getInputStream();
+					
+					SocketConverter.SendText(out, recText);
+					SocketConverter.SendText(ostream, "TRANSFER " + requests[1] + " " + requests[2] + " " + requests[3]);
+					String receive = SocketConverter.receiveText(in);
+					String[] parsedReceive = receive.split(" ");
+					SocketConverter.SendText(ostream, receive);
+					if(parsedReceive[0].equals("OK"))
+					{
+						synchronized(this)
+						{
+							moveUsers(Integer.parseInt(requests[1]), Integer.parseInt(requests[2]));
+						}
+					}
+					else if(parsedReceive[0].equals("BUSY"))
+					{
+						
+					}
+					
+					in.close();
+					out.close();
+					toClient.close();
 				}
 			}
 		}
