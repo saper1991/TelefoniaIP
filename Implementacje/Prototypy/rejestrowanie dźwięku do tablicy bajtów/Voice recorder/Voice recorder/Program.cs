@@ -24,13 +24,9 @@ namespace Voice_recorder
             }
             else
             {
-                try
-                {
                     FrameworkDispatcher.Update();
-                }
-                catch {}
 
-
+                    Console.ReadKey();
             }
         }
     }
