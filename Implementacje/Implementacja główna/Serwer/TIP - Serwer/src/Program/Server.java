@@ -102,7 +102,7 @@ public class Server extends ThreadCommunicator implements Runnable
 					
 					synchronized(this)
 					{
-						plugged.add(new PluggedUser(requests[1], Integer.parseInt(requests[2]), IPAddress));
+						plugged.add(new PluggedUser(requests[1], Integer.parseInt(requests[2]), IPAddress, Integer.parseInt(requests[3])));
 					}
 					SocketConverter.SendText(ostream, "OK " + requests[1]);
 				}
@@ -153,11 +153,33 @@ public class Server extends ThreadCommunicator implements Runnable
 						{
 							moveUsers(Integer.parseInt(requests[1]), Integer.parseInt(requests[2]));
 						}
+						SocketConverter.SendText(out, SocketConverter.receiveText(istream));
+						
+						
 					}
 					else if(parsedReceive[0].equals("BUSY"))
 					{
-						
+						SocketConverter.SendText(ostream, "BUSY " + requests[1] + " " + requests[2] + " " + requests[3]);
 					}
+					
+					in.close();
+					out.close();
+					toClient.close();
+				}
+			}
+			else if(requests[0].equals("BYE"))
+			{
+				if(isDialed(Integer.parseInt(requests[1]), Integer.parseInt(requests[2])))
+				{
+					Socket toClient = new Socket(getIPAddress(Integer.parseInt(requests[2])), server.getLocalPort() + 1);
+					OutputStream out = toClient.getOutputStream();
+					InputStream in = toClient.getInputStream();
+					
+					synchronized(this)
+					{
+						deleteUsers(Integer.parseInt(requests[1]), Integer.parseInt(requests[2]));
+					}
+					SocketConverter.SendText(out, recText);
 					
 					in.close();
 					out.close();

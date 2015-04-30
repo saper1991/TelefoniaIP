@@ -26,6 +26,25 @@ public class ThreadCommunicator extends Thread
 			}
 		}
 	}
+	
+	protected void deleteUsers(int user1, int user2)
+	{
+		for(PluggedUser user : plugged)
+		{
+			if(user.userNumber == user1)
+			{
+				dialed.remove(user);
+			}
+		}
+		
+		for(PluggedUser user : plugged)
+		{
+			if(user.userNumber == user2)
+			{
+				dialed.remove(user);
+			}
+		}
+	}
 	protected PluggedUser getUser(int userNumber)
 	{
 		for(PluggedUser user : plugged)
@@ -51,6 +70,40 @@ public class ThreadCommunicator extends Thread
 	protected boolean isPlugged(int input)
 	{
 		if(plugged.contains(input))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	protected boolean isDialed(int number1, int number2)
+	{
+		boolean result1 = false, result2 = false;
+		
+		for(PluggedUser user : dialed)
+		{
+			if(user.userNumber == number1)
+			{
+				result1 = true;
+				break;
+			}
+		}
+		
+
+		for(PluggedUser user : dialed)
+		{
+			if(user.userNumber == number2)
+			{
+				result2 = true;
+				break;
+			}
+		}
+
+		
+		if(result1 == result2 == true)
 		{
 			return true;
 		}
