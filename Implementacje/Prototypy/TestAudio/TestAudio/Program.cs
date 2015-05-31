@@ -1,35 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TestAudio.Audio;
+using System.Windows.Forms;
 
 namespace TestAudio
 {
-    class Program
+    static class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-            BassAudio bass = new BassAudio();
-            while (true)
-            {
-                Console.WriteLine("Tryby pracy(1-3):");
-                switch (Console.ReadLine())
-                {
-                    case "1":
-                        {
-                            bass.Test();
-                            break;
-                        }
-                    case "2":
-                        break;
-                    case "3":
-                        break;
-                    default:
-                        break;
-                }
-            }
-            
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new TestAudio());
         }
     }
 }
