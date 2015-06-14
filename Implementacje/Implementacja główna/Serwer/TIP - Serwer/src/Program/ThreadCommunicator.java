@@ -67,16 +67,28 @@ public class ThreadCommunicator extends Thread
 		}
 		return null;
 	}
+	
+	protected int getUserPort(int number)
+	{
+		for(PluggedUser user : plugged)
+		{
+			if(user.userNumber == number)
+			{
+				return user.userPort;
+			}
+		}
+		return 0;
+	}
 	protected boolean isPlugged(int input)
 	{
-		if(plugged.contains(input))
+		for(PluggedUser user : plugged)
 		{
-			return true;
+			if(user.userNumber == input)
+			{
+				return true;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 	
 	protected boolean isDialed(int number1, int number2)
@@ -114,13 +126,13 @@ public class ThreadCommunicator extends Thread
 	}
 	protected boolean isBusy(int input)
 	{
-		if(dialed.contains(input))
+		for(PluggedUser user : dialed)
 		{
-			return true;
+			if(user.userNumber == input)
+			{
+				return true;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 }

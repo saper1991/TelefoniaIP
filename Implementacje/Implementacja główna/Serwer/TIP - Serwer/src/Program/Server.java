@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
+//import java.net.SocketException;
 
 public class Server extends ThreadCommunicator implements Runnable
 {
@@ -35,7 +35,7 @@ public class Server extends ThreadCommunicator implements Runnable
 				{
 					serviceRequest(is, os, db);
 				}
-				catch(SocketException ex)
+				catch(Exception ex) //SocketException
 				{
 					is.close();
 					os.close();
@@ -48,10 +48,11 @@ public class Server extends ThreadCommunicator implements Runnable
 				socket.close();
 			}
 		}
-		catch(IOException ex)
+		catch(Exception  ex) //IOException
 		{
 			ex.printStackTrace();
 		}
+		
 		finally
 		{
 			try 
@@ -63,6 +64,7 @@ public class Server extends ThreadCommunicator implements Runnable
 				e.printStackTrace();
 			}
 		}
+		
 	}
 	
 	public void serviceRequest(InputStream istream, OutputStream ostream, Database db) throws IOException
@@ -81,13 +83,12 @@ public class Server extends ThreadCommunicator implements Runnable
 					boolean inserted = db.addUser(requests[1], Integer.parseInt(requests[2]));
 					if(inserted)
 					{
-						SocketConverter.SendText(ostream, "OK" + requests[1] + " " + requests[2]);
+						SocketConverter.SendText(ostream, "OK " + requests[1] + " " + requests[2]);
 					}
 					else
 					{
 						SocketConverter.SendText(ostream, "NOK " + requests[1] + " " + requests[2]);
 					}
-					
 				}
 				else
 				{
@@ -96,13 +97,12 @@ public class Server extends ThreadCommunicator implements Runnable
 			}
 			else if(requests[0].equals("HELLO"))
 			{
-				if(db.checkUser(Integer.parseInt(requests[1])))
-				{
-					String IPAddress = server.getInetAddress().toString();
+				if(db.checkUser(Integer.parseInt(requests[2])) && (!isUserPlugged(Integer.parseInt(requests[2]))))
+				{			
 					
 					synchronized(this)
 					{
-						plugged.add(new PluggedUser(requests[1], Integer.parseInt(requests[2]), IPAddress, Integer.parseInt(requests[3])));
+						plugged.add(new PluggedUser(requests[1], Integer.parseInt(requests[2]), requests[3], Integer.parseInt(requests[4])));
 					}
 					SocketConverter.SendText(ostream, "OK " + requests[1]);
 				}
@@ -115,35 +115,41 @@ public class Server extends ThreadCommunicator implements Runnable
 			{
 				PluggedUser selectedUser = getUser(Integer.parseInt(requests[1]));
 				
-				synchronized(this)
+				if(isUserPlugged(Integer.parseInt(requests[1])))
 				{
-					plugged.remove(selectedUser);
+					synchronized(this)
+					{
+						plugged.remove(selectedUser);
+					}
+					SocketConverter.SendText(ostream, "OK " + requests[1]);
 				}
-				SocketConverter.SendText(ostream, "OK " + requests[1]);
+				
 			}
 			else if(requests[0].equals("INVITE"))
 			{
 				if(!db.checkUser(Integer.parseInt(requests[2])))
 				{
-					SocketConverter.SendText(ostream, "NEX " + requests[1] + " " + requests[2] + " " + requests[3]);
+					SocketConverter.SendText(ostream, "NEX " + requests[1] + " " + requests[2] + " " + requests[3] + requests[4]); 
 				}
 				else if(isBusy(Integer.parseInt(requests[2])))
 				{
-					SocketConverter.SendText(ostream, "BUSY " + requests[1] + " " + requests[2] + " " + requests[3]);
+					SocketConverter.SendText(ostream, "BUSY " + requests[1] + " " + requests[2] + " " + requests[3] + requests[4]);
 				}
-				else if(isPlugged(Integer.parseInt(requests[2])))
+				else if(!isPlugged(Integer.parseInt(requests[2])))
 				{
-					SocketConverter.SendText(ostream, "NAC " + requests[1] + " " + requests[2] + " " + requests[3]);
+					SocketConverter.SendText(ostream, "NAC " + requests[1] + " " + requests[2] + " " + requests[3]  + requests[4]);
 				}
 				else
 				{
 					String IP = getIPAddress(Integer.parseInt(requests[2]));
-					Socket toClient = new Socket(IP, server.getLocalPort() + 1);
+					int toClientPort = Integer.parseInt(requests[4]);
+					
+					Socket toClient = new Socket(IP, toClientPort + 1);
 					OutputStream out = toClient.getOutputStream();
 					InputStream in = toClient.getInputStream();
 					
 					SocketConverter.SendText(out, recText);
-					SocketConverter.SendText(ostream, "TRANSFER " + requests[1] + " " + requests[2] + " " + requests[3]);
+					SocketConverter.SendText(ostream, "TRANSFER " + requests[1] + " " + requests[2] + " " + requests[3] + requests[4]);
 					String receive = SocketConverter.receiveText(in);
 					String[] parsedReceive = receive.split(" ");
 					SocketConverter.SendText(ostream, receive);
@@ -186,6 +192,22 @@ public class Server extends ThreadCommunicator implements Runnable
 					toClient.close();
 				}
 			}
+			else
+			{
+				continue;
+			}
 		}
+	}
+	
+	private boolean isUserPlugged(int number)
+	{
+		for(PluggedUser user : plugged)
+		{
+			if(user.userNumber == number)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -62,7 +62,7 @@ public class Database
 	}	
 	private String CreateDBCommand(String address, int MySQLPort)
 	{
-		return "jdbc:mysql://"+ address +":" + MySQLPort + "/TIP";
+		return "jdbc:mysql://"+ address +":" + MySQLPort + "/tip";   //TIP
 	}	
 	public Database(String server,int port, String user, String pass)
 	{
@@ -125,7 +125,7 @@ public class Database
 		boolean result = false;
 		try 
 		{
-			String query = "insert into USERS values('" + userName + "', " + userNumber +")"; 
+			String query = "insert into users values('" + userName + "', " + userNumber +")";  //USERS
 			
 			statement = conn.createStatement();
 			int count = statement.executeUpdate(query);
@@ -163,7 +163,7 @@ public class Database
 		try 
 		{
 			statement = conn.createStatement();
-			rs = statement.executeQuery("select UserNumber from USERS where UserNumber = " + userNumber);
+			rs = statement.executeQuery("select UserNumber from users where UserNumber = " + userNumber); //USERS
 			results = writeUserNumber(rs);
 			
 			rs.close();
@@ -201,5 +201,59 @@ public class Database
 			return true;
 		}
 	}
-
+	
+	private String writeUserName(ResultSet rs)
+	{
+		String result = "";
+		
+		try 
+		{
+			while(rs.next())
+			{
+				int UserNumber = rs.getInt("UserName");
+				
+				result += (UserNumber);
+			}
+			return result;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println("Nast¹pi³ problem z pobraniem wartoœci z Bazy danych!");
+			return result;
+		}
+	}
+	
+	public String ReadUserName(int userNumber)
+	{
+		String results = "";
+		
+		try 
+		{
+			statement = conn.createStatement();
+			rs = statement.executeQuery("select UserName from users where UserNumber = " + userNumber); //USERS
+			results = writeUserName(rs);
+			
+			rs.close();
+			statement.close();
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println("B³¹d podczas realizacji zapytania SQL");
+			return results;
+		}
+		finally
+		{
+			try 
+			{
+				rs.close();
+				statement.close();
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		return results;
+	}
 }
