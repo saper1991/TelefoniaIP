@@ -42,7 +42,7 @@ namespace Klient_TIP
         {
             if (!SocketOperations.ConnectStatus())
             {
-                SocketOperations.ConnectSocket("localhost", 11326);
+                SocketOperations.ConnectSocket("192.168.1.2", 11326);
             }
 
             display("Łączenie... ", Color.Green);

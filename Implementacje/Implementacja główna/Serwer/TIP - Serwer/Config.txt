@@ -2,5 +2,5 @@
 4
 127.0.0.1
 3306
-TIPserverUser
-XMfR7mYUSUF8aBs8
+root
+root

@@ -40,52 +40,54 @@
             // 
             // btnCall
             // 
-            this.btnCall.Location = new System.Drawing.Point(30, 119);
+            this.btnCall.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCall.Location = new System.Drawing.Point(12, 94);
             this.btnCall.Name = "btnCall";
-            this.btnCall.Size = new System.Drawing.Size(75, 23);
+            this.btnCall.Size = new System.Drawing.Size(164, 36);
             this.btnCall.TabIndex = 0;
             this.btnCall.Text = "&Call";
-            this.btnCall.UseVisualStyleBackColor = true;
+            this.btnCall.UseVisualStyleBackColor = false;
             this.btnCall.Click += new System.EventHandler(this.btnCall_Click);
             // 
             // btnEndCall
             // 
+            this.btnEndCall.BackColor = System.Drawing.SystemColors.Control;
             this.btnEndCall.Enabled = false;
-            this.btnEndCall.Location = new System.Drawing.Point(178, 119);
+            this.btnEndCall.Location = new System.Drawing.Point(12, 136);
             this.btnEndCall.Name = "btnEndCall";
-            this.btnEndCall.Size = new System.Drawing.Size(75, 23);
+            this.btnEndCall.Size = new System.Drawing.Size(164, 36);
             this.btnEndCall.TabIndex = 1;
             this.btnEndCall.Text = "&End Call";
-            this.btnEndCall.UseVisualStyleBackColor = true;
+            this.btnEndCall.UseVisualStyleBackColor = false;
             this.btnEndCall.Click += new System.EventHandler(this.btnEndCall_Click);
             // 
             // txtCallToIP
             // 
-            this.txtCallToIP.Location = new System.Drawing.Point(63, 15);
+            this.txtCallToIP.Location = new System.Drawing.Point(50, 15);
             this.txtCallToIP.Name = "txtCallToIP";
-            this.txtCallToIP.Size = new System.Drawing.Size(205, 20);
+            this.txtCallToIP.Size = new System.Drawing.Size(126, 20);
             this.txtCallToIP.TabIndex = 3;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(63, 41);
+            this.txtName.Location = new System.Drawing.Point(50, 41);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(205, 20);
+            this.txtName.Size = new System.Drawing.Size(126, 20);
             this.txtName.TabIndex = 4;
             // 
             // lblCallTo
             // 
             this.lblCallTo.AutoSize = true;
-            this.lblCallTo.Location = new System.Drawing.Point(14, 18);
+            this.lblCallTo.Location = new System.Drawing.Point(9, 18);
             this.lblCallTo.Name = "lblCallTo";
-            this.lblCallTo.Size = new System.Drawing.Size(43, 13);
+            this.lblCallTo.Size = new System.Drawing.Size(20, 13);
             this.lblCallTo.TabIndex = 5;
-            this.lblCallTo.Text = "Call &To:";
+            this.lblCallTo.Text = "&IP:";
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(14, 44);
+            this.lblName.Location = new System.Drawing.Point(9, 44);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 6;
@@ -99,15 +101,15 @@
             "None",
             "A-Law",
             "u-Law"});
-            this.cmbCodecs.Location = new System.Drawing.Point(63, 67);
+            this.cmbCodecs.Location = new System.Drawing.Point(50, 67);
             this.cmbCodecs.Name = "cmbCodecs";
-            this.cmbCodecs.Size = new System.Drawing.Size(205, 21);
+            this.cmbCodecs.Size = new System.Drawing.Size(126, 21);
             this.cmbCodecs.TabIndex = 7;
             // 
             // lblCodec
             // 
             this.lblCodec.AutoSize = true;
-            this.lblCodec.Location = new System.Drawing.Point(14, 70);
+            this.lblCodec.Location = new System.Drawing.Point(9, 70);
             this.lblCodec.Name = "lblCodec";
             this.lblCodec.Size = new System.Drawing.Size(41, 13);
             this.lblCodec.TabIndex = 8;
@@ -117,7 +119,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(283, 158);
+            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.ClientSize = new System.Drawing.Size(188, 185);
             this.Controls.Add(this.lblCodec);
             this.Controls.Add(this.cmbCodecs);
             this.Controls.Add(this.lblName);

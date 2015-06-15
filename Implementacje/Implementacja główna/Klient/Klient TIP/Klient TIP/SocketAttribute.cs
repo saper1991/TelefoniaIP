@@ -57,7 +57,7 @@ namespace Klient_TIP
 
         public static bool addUser(string userName, string userNumber)
         {
-            ConnectSocket("localhost", 11326);
+            ConnectSocket("192.168.1.2", 11326);
             string command = "ADD " + userName + " " + userNumber;
             SocketConverter.SendText(klient, command);
             string receiveText = SocketConverter.ReceiveText(klient);
